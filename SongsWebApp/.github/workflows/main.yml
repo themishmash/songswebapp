@@ -15,3 +15,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "songs-web-app"
           heroku_email: "wong.mich.c@gmail.com"
+          usedocker: true
