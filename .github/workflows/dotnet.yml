@@ -19,3 +19,4 @@ jobs:
           usedocker: true
       - run: |
           heroku container:login
+          heroku stack:set heroku-20
