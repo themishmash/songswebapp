@@ -1,30 +1,32 @@
-name: Deploy to Heroku
+name: .NET
 
 on:
   push:
-    branches:
-      - master
-
-env:
-  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  APP_NAME: ${{ 'netcore-react-heroku-app' }}
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
-    name: Deploy to Heroku
-    runs-on: ubuntu-18.04
+
+    runs-on: ubuntu-latest
+
     steps:
-
-      # Clone the repository
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # Build Docker image
-      - name: Docker build
-        run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-
-      # Push the Docker image to Heroku Container Registry
-      - name: Publish
-        run: |
-          heroku container:push web -a $APP_NAME
-          heroku container:release web -a $APP_NAME
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Build, Push and Release a Docker container to Heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+        dockerfile_directory: ./
+        docker_options: "--no-cache"
+        process_type: web
+        email: ${{ secrets.HEROKU_EMAIL }}
