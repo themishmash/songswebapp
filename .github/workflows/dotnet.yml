@@ -29,6 +29,6 @@ jobs:
         heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
         dockerfile_path: ./SongsWebApp
         dockerfile_name: Dockerfile
-        options: ''
+        use_git: true
         process_type: web
         email: ${{ secrets.HEROKU_EMAIL }}
