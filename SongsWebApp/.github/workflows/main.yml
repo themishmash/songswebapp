@@ -1,6 +1,7 @@
 name: Deploy to Heroku
 
-on: [push]
+on:
+  push:
     branches:
       - master
 
@@ -25,5 +26,5 @@ jobs:
       # Push the Docker image to Heroku Container Registry
       - name: Publish
         run: |
-          heroku container:push web -a songsWebApp
-          heroku container:release web -a songsWebApp
+          heroku container:push web -a $APP_NAME
+          heroku container:release web -a $APP_NAME
