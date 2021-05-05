@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-#      - run: heroku container:login
       - run: |
           cat <<@ > ~/.netrc
           machine api.heroku.com
@@ -18,6 +17,7 @@ jobs:
             password ${{secrets.HEROKU_API_KEY}}
           @
       - run: |
+          heroku container:login
           git config user.name 'themishmash'
           git config user.email 'wong.mich.c@gmail.com'
           git push heroku master
