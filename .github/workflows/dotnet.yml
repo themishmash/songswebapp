@@ -10,12 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "songs-web-app"
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-          justlogin: true
-          usedocker: true
+      - run: heroku container:login
       - run: |
-          heroku container:login
+         git config user.name 'themishmash'
+         git config user.email 'wong.mich.c@gmail.com'
+         git push heroku master
+#      - uses: akhileshns/heroku-deploy@v3.12.12 
+#        with:
+#          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#          heroku_app_name: "songs-web-app"
+#          heroku_email: ${{secrets.HEROKU_EMAIL}}
+#          justlogin: true
+#          usedocker: true
+#      - run: |
+#          heroku container:login
