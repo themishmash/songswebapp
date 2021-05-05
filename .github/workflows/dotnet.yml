@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 #      - run: heroku container:login
-      - run: |
+      - run: >
         cat <<@ > ~/.netrc
         machine api.heroku.com
           login ${{secrets.HEROKU_EMAIL}}
