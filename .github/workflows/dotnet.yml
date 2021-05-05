@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: heroku container:login
+#      - run: heroku container:login
       - run: |
          git config user.name 'themishmash'
          git config user.email 'wong.mich.c@gmail.com'
@@ -24,3 +24,5 @@ jobs:
 #          usedocker: true
 #      - run: |
 #          heroku container:login
+
+
