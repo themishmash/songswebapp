@@ -11,15 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 #      - run: heroku container:login
-      - run: >
-        cat <<@ > ~/.netrc
-        machine api.heroku.com
-          login ${{secrets.HEROKU_EMAIL}}
-          password ${{secrets.HEROKU_API_KEY}}
-        @
-        git config user.name 'themishmash'
-        git config user.email 'wong.mich.c@gmail.com'
-        git push heroku master
+      - run: |
+          cat <<@ > ~/.netrc
+          machine api.heroku.com
+            login ${{secrets.HEROKU_EMAIL}}
+            password ${{secrets.HEROKU_API_KEY}}
+          @
+      - run: |
+          git config user.name 'themishmash'
+          git config user.email 'wong.mich.c@gmail.com'
+          git push heroku master
 #      - uses: akhileshns/heroku-deploy@v3.12.12 
 #        with:
 #          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
