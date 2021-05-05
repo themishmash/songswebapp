@@ -21,6 +21,7 @@ jobs:
 #          @
       - run: |
           heroku container:login
+          heroku git:remote -a songs-web-app
           git config user.name 'themishmash'
           git config user.email 'wong.mich.c@gmail.com'
           git push heroku master
