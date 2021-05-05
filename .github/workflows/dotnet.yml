@@ -13,8 +13,9 @@ jobs:
 #      - run: heroku container:login
       - run: |
         cat <<@ > ~/.netrc
-        login ${{secrets.HEROKU_EMAIL}}
-        password ${{secrets.HEROKU_API_KEY}}
+        machine api.heroku.com
+          login ${{secrets.HEROKU_EMAIL}}
+          password ${{secrets.HEROKU_API_KEY}}
         @
         git config user.name 'themishmash'
         git config user.email 'wong.mich.c@gmail.com'
