@@ -21,9 +21,9 @@ jobs:
 #          @
       - run: |
           heroku container:login
-          git remote add heroku https://git.heroku.com/songs-web-app.git
           git config user.name 'themishmash'
           git config user.email 'wong.mich.c@gmail.com'
+          git remote add heroku https://git.heroku.com/songs-web-app.git
           git push heroku master
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
