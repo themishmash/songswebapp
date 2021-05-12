@@ -1,34 +1,84 @@
-name: Deploy to heroku.
-
-on:
-  push:
-    branches:
-      - master
+name: deploy
+on: push
 
 jobs:
-  build:
+  heroku-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
 
-
-      - run: |
-          cat <<@ > ~/.netrc
-          machine api.heroku.com
-            login ${{secrets.HEROKU_EMAIL}}
-            password ${{secrets.HEROKU_API_KEY}}
-          machine git.heroku.com
-            login ${{secrets.HEROKU_EMAIL}}
-            password ${{secrets.HEROKU_API_KEY}}
-          @
-      - run: |
-          heroku container:login
-          git config user.name 'themishmash'
-          git config user.email 'wong.mich.c@gmail.com'
-          git remote add heroku https://git.heroku.com/songs-web-app.git
-          git push heroku master
+  custom-deploy:
+    # The `needs` is added to bypass:
+    # "Your account has reached its concurrent builds limit"
+    needs: heroku-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Heroku login credentials
+        run: |
+          cat > ~/.netrc <<EOF
+            machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+            machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
         env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      - name: Add Heroku remote
+        run: heroku git:remote --app $HEROKU_APP_NAME
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      - name: Push to Heroku
+        run: git push heroku master
+
+
+#COMMENT OUT START!!!!
+#name: Deploy to heroku
+#on:
+#  push:
+#    branches:
+#      - master
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#
+#      - run: |
+#          cat <<@ > ~/.netrc
+#          machine api.heroku.com
+#            login ${{secrets.HEROKU_EMAIL}}
+#            password ${{secrets.HEROKU_API_KEY}}
+#          machine git.heroku.com
+#            login ${{secrets.HEROKU_EMAIL}}
+#            password ${{secrets.HEROKU_API_KEY}}
+#          @
+#      - run: |
+#          heroku container:login
+#          git config user.name 'themishmash'
+#          git config user.email 'wong.mich.c@gmail.com'
+#          git remote add heroku https://git.heroku.com/songs-web-app.git
+#          git push heroku master
+#        env:
+#          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+#COMMENT END!!!!
+
+#OLD COMMENTS
 #      - uses: akhileshns/heroku-deploy@v3.12.12 
 #        with:
 #          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -38,5 +88,7 @@ jobs:
 #          usedocker: true
 #      - run: |
 #          heroku container:login
+
+
 
 
