@@ -1,4 +1,4 @@
-name: deploy now
+name: deploy
 on: push
 
 jobs:
