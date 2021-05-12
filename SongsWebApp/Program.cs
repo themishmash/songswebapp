@@ -20,6 +20,8 @@ namespace SongsWebApp
         // public static IHostBuilder CreateHostBuilder(string[] args) =>
         //     Host.CreateDefaultBuilder(args)
         //         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        
+        //Tried this for kestrel heroku issue - not working
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -27,5 +29,7 @@ namespace SongsWebApp
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT")); 
                 });
+        
+        
     }
 }
