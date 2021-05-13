@@ -1,4 +1,4 @@
-name: deploy song web app
+name: deploy
 on: push
 
 jobs:
