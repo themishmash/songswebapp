@@ -16,10 +16,10 @@ namespace SongsWebApp
             CreateHostBuilder(args).Build().Run();
         }
 
-        //need this or won't work on localhost:5001
-        // public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //     Host.CreateDefaultBuilder(args)
-        //         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+       // need this or won't work on localhost:5001
+         // public static IHostBuilder CreateHostBuilder(string[] args) =>
+         //     Host.CreateDefaultBuilder(args)
+         //         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         
         //Tried this for kestrel heroku issue - not working
         // public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -30,12 +30,13 @@ namespace SongsWebApp
         //             webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT")); 
         //         });
         
+        //working with docker
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     var port = Environment.GetEnvironmentVariable("PORT");
-
+        
                     webBuilder.UseStartup<Startup>()
                         .UseUrls("http://*:" + port);
                 });
