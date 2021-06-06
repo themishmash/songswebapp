@@ -1,6 +1,6 @@
 build:
   docker:
-    worker: SongsWebApp/Dockerfile
+    worker: Dockerfile
 run:
   songs-web-app:
     image: worker
