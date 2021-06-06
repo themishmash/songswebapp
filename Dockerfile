@@ -4,7 +4,7 @@ WORKDIR /source
 
 # copy csproj and restore as distinct layers
 COPY . .
-RUN dotnet restore ./SongsWebApp.csproj
+RUN dotnet restore ./SongsWebApp/SongsWebApp.csproj
 RUN dotnet publish -c release -o /app --no-restore
 
 # final stage/image
